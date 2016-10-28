@@ -149,7 +149,7 @@ module HTTParty
 
     def attach_ssl_certificates(http, options)
       if http.use_ssl?
-        if options.fetch(:verify, true)
+        if verify_ssl_certificate?
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
           if options[:cert_store]
             http.cert_store = options[:cert_store]
@@ -167,7 +167,6 @@ module HTTParty
         if options[:pem]
           http.cert = OpenSSL::X509::Certificate.new(options[:pem])
           http.key = OpenSSL::PKey::RSA.new(options[:pem], options[:pem_password])
-          http.verify_mode = verify_ssl_certificate? ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE
         end
 
         # PKCS12 client certificate authentication
@@ -175,18 +174,18 @@ module HTTParty
           p12 = OpenSSL::PKCS12.new(options[:p12], options[:p12_password])
           http.cert = p12.certificate
           http.key = p12.key
-          http.verify_mode = verify_ssl_certificate? ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE
         end
 
         # SSL certificate authority file and/or directory
         if options[:ssl_ca_file]
           http.ca_file = options[:ssl_ca_file]
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
         end
 
         if options[:ssl_ca_path]
           http.ca_path = options[:ssl_ca_path]
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        end
+
+        if verify_ssl_certificate?
         end
 
         # This is only Ruby 1.9+
