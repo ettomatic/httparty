@@ -16,7 +16,7 @@ You can use this guide to work with SSL certificates.
 
 class Client
 	include HTTParty
-	
+
 	base_uri "https://example.com"
 	pem File.read("#{File.expand_path('.')}/path/to/certs/cert.pem"), "123456"
 
@@ -30,7 +30,7 @@ end
 
 class Client
 	include HTTParty
-	
+
 	base_uri "https://example.com"
 	pkcs12 File.read("#{File.expand_path('.')}/path/to/certs/cert.p12"), "123456"
 
@@ -44,7 +44,7 @@ end
 
 class Client
 	include HTTParty
-	
+
 	base_uri "https://example.com"
 	ssl_ca_file "#{File.expand_path('.')}/path/to/certs/cert.pem"
 
@@ -58,7 +58,7 @@ end
 
 class Client
 	include HTTParty
-	
+
 	base_uri "https://example.com"
  	ssl_ca_path '/path/to/certs'
 end
@@ -69,9 +69,9 @@ You can also include this options with the call:
 ```ruby
 class Client
 	include HTTParty
-	
+
 	base_uri "https://example.com"
-	
+
 	def	self.fetch
 		get("/resources", pem: (File.read("#{File.expand_path('.')}/path/to/certs/cert.pem"), "123456")
 	end
@@ -90,11 +90,9 @@ class Client
 
 	base_uri "https://example.com"
 	pem File.read("#{File.expand_path('.')}/path/to/certs/cert.pem"), "123456"
-	
+
 	def	self.fetch
 		get("/resources", verify: false)
-		# You can also use something like:
-		# get("resources", verify_peer: false)
 	end
 end
 ```

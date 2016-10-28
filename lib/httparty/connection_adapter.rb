@@ -45,7 +45,6 @@ module HTTParty
   # * :+debug_output+: see HTTParty::ClassMethods.debug_output.
   # * :+pem+: contains pem data. see HTTParty::ClassMethods.pem.
   # * :+verify+: verify the server’s certificate against the ca certificate.
-  # * :+verify_peer+: set to false to turn off server verification but still send client certificate
   # * :+ssl_ca_file+: see HTTParty::ClassMethods.ssl_ca_file.
   # * :+ssl_ca_path+: see HTTParty::ClassMethods.ssl_ca_path.
   # * :+connection_adapter_options+: contains the hash you passed to HTTParty.connection_adapter when you configured your connection adapter
@@ -54,8 +53,7 @@ module HTTParty
     StripIpv6BracketsRegex = /\A\[(.*)\]\z/
 
     OPTION_DEFAULTS = {
-      verify: true,
-      verify_peer: true
+      verify: true
     }
 
     # Public
@@ -144,7 +142,7 @@ module HTTParty
     end
 
     def verify_ssl_certificate?
-      !(options[:verify] == false || options[:verify_peer] == false)
+      !(options[:verify] == false)
     end
 
     def attach_ssl_certificates(http, options)

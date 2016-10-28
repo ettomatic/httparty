@@ -27,7 +27,7 @@ RSpec.describe HTTParty::ConnectionAdapter do
     it "sets the options" do
       options = {foo: :bar}
       adapter = HTTParty::ConnectionAdapter.new(uri, options)
-      expect(adapter.options.keys).to include(:verify, :verify_peer, :foo)
+      expect(adapter.options.keys).to include(:verify, :foo)
     end
   end
 
@@ -392,8 +392,9 @@ RSpec.describe HTTParty::ConnectionAdapter do
               expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_NONE)
             end
           end
-          context "when options include verify_peer=false" do
-            let(:options) { {pem: pem, pem_password: "password", verify_peer: false} }
+
+          context "when options include verify=false and ssl_ca_file is defined" do
+            let(:options) { {pem: pem, pem_password: "password", verify: false, ssl_ca_file: 'cert.pem' } }
 
             it "should not verify the certificate" do
               expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_NONE)
@@ -450,8 +451,9 @@ RSpec.describe HTTParty::ConnectionAdapter do
               expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_NONE)
             end
           end
-          context "when options include verify_peer=false" do
-            let(:options) { {p12: p12, p12_password: "password", verify_peer: false} }
+
+          context "when options include verify=false and ssl_ca_file is defined" do
+            let(:options) { {p12: p12, p12_password: "password", verify: false, ssl_ca_file: 'cert.pem' } }
 
             it "should not verify the certificate" do
               expect(subject.verify_mode).to eq(OpenSSL::SSL::VERIFY_NONE)
