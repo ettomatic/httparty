@@ -181,12 +181,12 @@ module HTTParty
         # SSL certificate authority file and/or directory
         if options[:ssl_ca_file]
           http.ca_file = options[:ssl_ca_file]
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+          http.verify_mode = verify_ssl_certificate? ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE
         end
 
         if options[:ssl_ca_path]
           http.ca_path = options[:ssl_ca_path]
-          http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+          http.verify_mode = verify_ssl_certificate? ? OpenSSL::SSL::VERIFY_PEER : OpenSSL::SSL::VERIFY_NONE
         end
 
         # This is only Ruby 1.9+
